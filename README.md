@@ -1,0 +1,2 @@
+# kdialog
+Kapow! dialog implementation
