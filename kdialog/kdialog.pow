@@ -1,0 +1,11 @@
+#!/bin/bash
+
+kapow route add '/kdialog/{handler:[A-Za-z0-9_]+}' - <<'EOF'
+	HANDLER_FILE="/tmp/kdialog_$(request /matches/handler)"
+	echo -n "$KAPOW_HANDLER_ID" > "$HANDLER_FILE"
+	echo "Connected $(request /matches/handler)"
+	websocket /send/text OK
+	while [ -f "$HANDLER_FILE" ]; do
+		sleep 1
+	done
+EOF
