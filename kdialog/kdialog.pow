@@ -1,11 +1,13 @@
 #!/bin/bash
 
-kapow route add '/kdialog/{handler:[A-Za-z0-9_]+}' - <<'EOF'
-	HANDLER_FILE="/tmp/kdialog_$(request /matches/handler)"
+kapow route add '/ktable/{handler:[A-Za-z0-9_]+}' - <<'EOF'
+	HANDLER_FILE="/tmp/ktable_$(request /matches/handler)"
 	echo -n "$KAPOW_HANDLER_ID" > "$HANDLER_FILE"
-	echo "Connected $(request /matches/handler)"
-	websocket /send/text OK
+	# websocket /send/text OK
 	while [ -f "$HANDLER_FILE" ]; do
 		sleep 1
 	done
 EOF
+
+kapow route add '/s3' -c 'aws s3 ls | ktable --fields Fecha,Hora,Bucket'
+kapow route add '/s3/{bucket}' -c 'aws s3 ls "s3://$(request /matches/bucket)" --recursive | grep '^2' | ktable --fields Fecha,Hora,Tamaño,Ruta'

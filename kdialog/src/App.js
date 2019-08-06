@@ -44,8 +44,6 @@ class RemoteWidget extends React.Component {
         });
         break;
     }
-    this.setState({count: this.state.count + result.movement});
-    console.log(result);
   }
 
   render() {
@@ -55,12 +53,14 @@ class RemoteWidget extends React.Component {
         <div
           className="ag-theme-balham"
           style={{
-          height: '500px',
+          height: '640px',
           width: '100%' }}
         >
           <AgGridReact
             columnDefs={this.state.columnDefs}
-            rowData={this.state.rowData}>
+            rowData={this.state.rowData}
+            pagination={true}
+            paginationAutoPageSize={true}>
           </AgGridReact>
         </div>
       </div>
